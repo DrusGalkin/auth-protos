@@ -5,9 +5,11 @@ package auth;
 option go_package = "../gen/go/auth";
 
 service Auth {
-  rpc Register (RegisterRequest) returns (RegisterResponse);
-  rpc Login (LoginRequest) returns (LoginResponse);
-  rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
+  rpc Register   (RegisterRequest)     returns (RegisterResponse);
+  rpc Login      (LoginRequest)        returns (LoginResponse);
+  rpc IsAdmin    (IsAdminRequest)      returns (IsAdminResponse);
+  rpc Refresh    (RefreshRequest)      returns (RefreshResponse);
+  rpc ValidToken (ValidTokenRequest)   returns (ValidTokenResponse);
 }
 
 message RegisterRequest {
@@ -26,7 +28,8 @@ message LoginRequest {
 }
 
 message LoginResponse {
-  string token = 1;
+  string access = 1;
+  string refresh = 2;
 }
 
 message IsAdminRequest {
@@ -35,4 +38,22 @@ message IsAdminRequest {
 
 message IsAdminResponse{
   bool is_admin = 1;
+}
+
+message RefreshRequest {
+  string refresh = 1;
+}
+
+message RefreshResponse {
+  string access = 1;
+  string refresh = 2;
+}
+
+message ValidTokenRequest {
+  string access = 1;
+}
+
+message ValidTokenResponse {
+  int64 user_id = 1;
+  string email = 2;
 }
